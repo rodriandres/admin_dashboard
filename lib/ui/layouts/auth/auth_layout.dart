@@ -2,6 +2,7 @@ import 'package:admin_dashboard/ui/layouts/auth/widgets/custom_background_widget
 import 'package:admin_dashboard/ui/layouts/auth/widgets/custom_title.dart';
 import 'package:admin_dashboard/ui/layouts/auth/widgets/links_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AuthLayout extends StatelessWidget {
   
@@ -56,7 +57,9 @@ class _DesktopBody extends StatelessWidget {
         children: [
 
           // Image Background
-          const CustomBackgroundImage(),
+          const Expanded(
+            child: CustomBackgroundImage()
+          ),
 
           // View Container
           Container(

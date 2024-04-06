@@ -79,7 +79,12 @@ class RegisterView extends StatelessWidget {
         
                     const SizedBox(height: 20),
                     CustomOutlinedButton(
-                      onPressed: () => registerFormProvider.validateForm(),
+                      onPressed: () {
+                        final isValid = registerFormProvider.validateForm();
+                        if (isValid) {
+                          // authProvider.register(registerFormProvider.email.name, registerFormProvider.email, registerFormProvider.password);
+                        }
+                      },
                       text: 'Register',
                     ),
         

@@ -5,22 +5,20 @@ class CustomBackgroundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      decoration: buildBackgroundImage(),
       child: Container(
-        decoration: buildBackgroundImage(),
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30) ,
-              child: Image(
-                image: AssetImage('resistant-white-logo.png'),
-                width: 400
-              ),
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30) ,
+            child: Image(
+              image: AssetImage('resistant-white-logo.png'),
+              width: 400
             ),
           ),
         ),
-      )
+      ),
     );
   }
 
