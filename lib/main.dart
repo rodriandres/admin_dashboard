@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         return AuthLayout(child: child!);
       },
       theme: ThemeData.light().copyWith(
-        scrollbarTheme: ScrollbarThemeData().copyWith(
+        scrollbarTheme: const ScrollbarThemeData().copyWith(
           thumbColor: MaterialStateProperty.all(
             Colors.grey[500],
           )
