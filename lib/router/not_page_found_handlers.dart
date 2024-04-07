@@ -7,7 +7,7 @@ class NotPageFoundHandlers {
 
   static Handler notPageFound = Handler(
     handlerFunc: (context, params) {
-      return NotPageFoundView();
+      return const NotPageFoundView();
     }
   );
 }
