@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/ui/shared/widgets/navbar_avatar.dart';
 import 'package:admin_dashboard/ui/shared/widgets/notifications_indicator.dart';
 import 'package:admin_dashboard/ui/shared/widgets/search_text.dart';
@@ -8,6 +9,9 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final size = MediaQuery.of(context).size;
+
     return Container(
       height: 50,
       width: double.infinity,
@@ -16,15 +20,19 @@ class Navbar extends StatelessWidget {
         children: [
 
           // TODO BURGUER ICON
-          IconButton(onPressed: (){}, icon: const Icon( Icons.menu_outlined )),
+          if (size.width <= 700)
+            IconButton(
+              onPressed: () => SideMenuProvider.openMenu(),
+              icon: const Icon( Icons.menu_outlined )
+            ),
+          
           const SizedBox(width: 5),
 
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 250),
-            child: Center(
-              child: const SearchText()
+          if (size.width > 390)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 250),
+              child: const SearchText(),
             ),
-          ),
 
           const Spacer(),
 

@@ -1,7 +1,7 @@
 
-import 'package:admin_dashboard/router/dashboard_handlers.dart';
 import 'package:fluro/fluro.dart';
 
+import 'package:admin_dashboard/router/dashboard_handlers.dart';
 import 'package:admin_dashboard/router/admin_handlers.dart';
 import 'package:admin_dashboard/router/not_page_found_handlers.dart';
 
@@ -16,6 +16,17 @@ class Flurorouter {
 
   // Dashboard routes
   static String dashboardRoute = '/dashboard';
+  static String iconsRoute = '/dashboard/icons';
+  static String blankRoute = '/dashboard/blank';
+  
+  static String ordersRoute = '/dashboard/orders';
+  static String analitycRoute = '/dashboard/analityc';
+  static String categoriesRoute = '/dashboard/categories';
+  static String productsRoute = '/dashboard/products';
+  static String discountRoute = '/dashboard/discount';
+  static String customersRoute = '/dashboard/customers';
+  static String marketingRoute = '/dashboard/marketing';
+  static String campaignRoute = '/dashboard/campaign';
 
 
   static void configuredRoutes() {
@@ -25,7 +36,9 @@ class Flurorouter {
     router.define(registerRoute, handler: AdminHandlers.register, transitionType: TransitionType.none);
 
     // Dashboard
-    router.define(dashboardRoute, handler: DashboardHandlers.dashboard, transitionType: TransitionType.fadeIn);
+    router.define(dashboardRoute, handler: DashboardHandlers.dashboard, transitionType: TransitionType.none);
+    router.define(iconsRoute, handler: DashboardHandlers.icons, transitionType: TransitionType.none);
+    router.define(blankRoute, handler: DashboardHandlers.blank, transitionType: TransitionType.none);
 
     // 404
     router.notFoundHandler = NotPageFoundHandlers.notPageFound;
