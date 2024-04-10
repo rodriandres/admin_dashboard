@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
@@ -19,6 +20,7 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final SideMenuProvider sideMenuProvider = Provider.of<SideMenuProvider>(context);
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Container(
       width: 200,
@@ -121,9 +123,10 @@ class SideBar extends StatelessWidget {
             text: 'Logout',
             icon: Icons.exit_to_app_outlined,
             isActive: false,
-            onPressed: () => {},
+            onPressed: () => {
+              authProvider.logout()
+            },
           ),
-
 
         ],
       ),

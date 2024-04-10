@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:admin_dashboard/ui/layouts/auth/widgets/custom_background_widget.dart';
 import 'package:admin_dashboard/ui/layouts/auth/widgets/custom_title.dart';
 import 'package:admin_dashboard/ui/layouts/auth/widgets/links_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AuthLayout extends StatelessWidget {
   
@@ -29,7 +29,7 @@ class AuthLayout extends StatelessWidget {
               : _MobileBody(child: child),
       
             // Linksbar
-            LinksBar(),
+            const LinksBar(),
           ],
         ),
       ),
@@ -69,7 +69,7 @@ class _DesktopBody extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                CustomTitle(),
+                const CustomTitle(),
                 const SizedBox(height: 50),
                 Expanded(
                   child: child
@@ -100,11 +100,11 @@ class _MobileBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           
-          SizedBox(height: 20),
-          CustomTitle(),
+          const SizedBox(height: 20),
+          const CustomTitle(),
           Container(
             width: double.infinity,
-            height: 420,
+            height: 450,
             child: child,
           ),
 

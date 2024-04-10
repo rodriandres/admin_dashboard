@@ -18,6 +18,7 @@ class RegisterView extends StatelessWidget {
       create: (_) => RegisterFormProvider(),
       child: Builder(builder: (context) {
 
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
         final registerFormProvider = Provider.of<RegisterFormProvider>(context, listen: false);
 
         return Container(
@@ -33,6 +34,7 @@ class RegisterView extends StatelessWidget {
                   children: [
         
                     TextFormField(
+                      onFieldSubmitted: ( _ ) => onFormSubmit(registerFormProvider, authProvider),
                       onChanged: ( value ) => registerFormProvider.name = value,
                       validator:(value) {
                         if (value == null || value.isEmpty ) return 'Name is required';
@@ -48,6 +50,7 @@ class RegisterView extends StatelessWidget {
         
                     const SizedBox(height: 20),
                     TextFormField(
+                      onFieldSubmitted: ( _ ) => onFormSubmit(registerFormProvider, authProvider),
                       onChanged: ( value ) => registerFormProvider.email = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) return 'Email is required';
@@ -64,6 +67,7 @@ class RegisterView extends StatelessWidget {
         
                     const SizedBox(height: 20),
                     TextFormField(
+                      onFieldSubmitted: ( _ ) => onFormSubmit(registerFormProvider, authProvider),
                       onChanged: ( value ) => registerFormProvider.password = value,
                       validator:(value) {
                         if (value == null || value.isEmpty) return 'Passwod is required';
@@ -80,19 +84,7 @@ class RegisterView extends StatelessWidget {
         
                     const SizedBox(height: 20),
                     CustomOutlinedButton(
-                      onPressed: () {
-                        
-                        final isValid = registerFormProvider.validateForm();
-                        if (!isValid) return;
-
-                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                        authProvider.register(
-                          registerFormProvider.name,
-                          registerFormProvider.email,
-                          registerFormProvider.password
-                        );
-
-                      },
+                      onPressed: () => onFormSubmit(registerFormProvider, authProvider),
                       text: 'Register',
                     ),
         
@@ -112,6 +104,17 @@ class RegisterView extends StatelessWidget {
           ),
         );
       }, )
+    );
+  }
+
+  void onFormSubmit(RegisterFormProvider registerFormProvider, AuthProvider authProvider) {
+    final isValid = registerFormProvider.validateForm();
+    if (!isValid) return;
+
+    authProvider.register(
+      registerFormProvider.name,
+      registerFormProvider.email,
+      registerFormProvider.password
     );
   }
 }

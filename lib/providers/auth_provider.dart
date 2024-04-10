@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 
 import 'package:admin_dashboard/api/CafeApi.dart';
 import 'package:admin_dashboard/models/https/auth_response.dart';
 import 'package:admin_dashboard/router/router.dart';
+
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
-import 'package:flutter/material.dart';
+import 'package:admin_dashboard/services/notifications_service.dart';
 
 enum AuthStatus {
   checking,
@@ -14,7 +16,6 @@ enum AuthStatus {
 
 class AuthProvider extends ChangeNotifier {
 
-  String? _token;
   AuthStatus authStatus = AuthStatus.checking; 
   Usuario? user;
 
@@ -23,14 +24,27 @@ class AuthProvider extends ChangeNotifier {
   }
 
   login( String email, String password) {
-    // HTTP REQUEST
-    _token = 'kajsndjkasjdknasjkd1232njajsd.sdjn2';
-    LocalStorage.prefs.setString('token', _token!);
+    final data = {
+      'correo': email,
+      'password': password,
+    };
 
-    authStatus = AuthStatus.authenticated;
-    notifyListeners();
+    CafeApi.post('/auth/login', data).then(
+      (res) {
+        final authResponse = AuthResponse.fromMap(res);
+        user = authResponse.usuario;
 
-    NavigationService.replaceTo(Flurorouter.dashboardRoute);
+        authStatus = AuthStatus.authenticated;
+        LocalStorage.prefs.setString('token', authResponse.token);
+        NavigationService.replaceTo(Flurorouter.dashboardRoute);
+
+        CafeApi.configureDio();
+
+        notifyListeners();
+      }
+    ).catchError( (e) {
+      NotificationsService.showSnackbarError('Invalid User or Password');
+    });
   }
 
   register( String name, String email, String password) {
@@ -42,17 +56,21 @@ class AuthProvider extends ChangeNotifier {
     };
 
     CafeApi.post('/usuarios', data).then(
-      (json) {
-        final authResponse = AuthResponse.fromMap(json);
+      (res) {
+        final authResponse = AuthResponse.fromMap(res);
         user = authResponse.usuario;
 
         authStatus = AuthStatus.authenticated;
         LocalStorage.prefs.setString('token', authResponse.token);
         NavigationService.replaceTo(Flurorouter.dashboardRoute);
+
+        CafeApi.configureDio();
+
         notifyListeners();
       }
-    ).catchError( (e) => print('Error: $e'));
-
+    ).catchError( (e) {
+      NotificationsService.showSnackbarError('Invalid User or Password');
+    });
   }
 
   Future<bool> isAuthenticated() async {
@@ -65,16 +83,29 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
 
-    // authStatus = AuthStatus.checking;
-    // notifyListeners();
+    try {
+      final response = await CafeApi.httpGet('/auth');
+        final authResponse = AuthResponse.fromMap(response);
+        LocalStorage.prefs.setString('token', authResponse.token);
+        
+        user = authResponse.usuario;
 
-    // TODO Check if JWT is valid in BE
+        authStatus = AuthStatus.authenticated;
+        notifyListeners();
+        return true;
+    } catch (e) {
+      print(e);
+      authStatus = AuthStatus.notAuthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
 
-    await Future.delayed(Duration(milliseconds: 1000));
-
-    authStatus = AuthStatus.authenticated;
+  logout() {
+    LocalStorage.prefs.remove('token');
+    authStatus = AuthStatus.notAuthenticated;
+    // NavigationService.replaceTo(Flurorouter.loginRoute);
     notifyListeners();
-    return true;
   }
 
 }
