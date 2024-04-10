@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/providers/auth_provider.dart';
 import 'package:admin_dashboard/providers/register_form_provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -80,10 +81,17 @@ class RegisterView extends StatelessWidget {
                     const SizedBox(height: 20),
                     CustomOutlinedButton(
                       onPressed: () {
+                        
                         final isValid = registerFormProvider.validateForm();
-                        if (isValid) {
-                          // authProvider.register(registerFormProvider.email.name, registerFormProvider.email, registerFormProvider.password);
-                        }
+                        if (!isValid) return;
+
+                        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                        authProvider.register(
+                          registerFormProvider.name,
+                          registerFormProvider.email,
+                          registerFormProvider.password
+                        );
+
                       },
                       text: 'Register',
                     ),

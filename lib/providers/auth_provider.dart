@@ -1,4 +1,6 @@
 
+import 'package:admin_dashboard/api/CafeApi.dart';
+import 'package:admin_dashboard/models/https/auth_response.dart';
 import 'package:admin_dashboard/router/router.dart';
 import 'package:admin_dashboard/services/local_storage.dart';
 import 'package:admin_dashboard/services/navigation_service.dart';
@@ -14,6 +16,7 @@ class AuthProvider extends ChangeNotifier {
 
   String? _token;
   AuthStatus authStatus = AuthStatus.checking; 
+  Usuario? user;
 
   AuthProvider() {
     isAuthenticated();
@@ -22,10 +25,8 @@ class AuthProvider extends ChangeNotifier {
   login( String email, String password) {
     // HTTP REQUEST
     _token = 'kajsndjkasjdknasjkd1232njajsd.sdjn2';
-    print('Storage JWT: $_token');
     LocalStorage.prefs.setString('token', _token!);
 
-    // TODO Navigate to dashboard
     authStatus = AuthStatus.authenticated;
     notifyListeners();
 
@@ -33,12 +34,25 @@ class AuthProvider extends ChangeNotifier {
   }
 
   register( String name, String email, String password) {
-    // HTTP REQUEST
-    print('Register');
 
-    // TODO Navigate to dashboard
+    final data = {
+      'nombre': name,
+      'correo': email,
+      'password': password,
+    };
 
-    notifyListeners();
+    CafeApi.post('/usuarios', data).then(
+      (json) {
+        final authResponse = AuthResponse.fromMap(json);
+        user = authResponse.usuario;
+
+        authStatus = AuthStatus.authenticated;
+        LocalStorage.prefs.setString('token', authResponse.token);
+        NavigationService.replaceTo(Flurorouter.dashboardRoute);
+        notifyListeners();
+      }
+    ).catchError( (e) => print('Error: $e'));
+
   }
 
   Future<bool> isAuthenticated() async {
