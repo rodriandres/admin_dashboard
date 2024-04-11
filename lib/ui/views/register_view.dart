@@ -86,6 +86,7 @@ class RegisterView extends StatelessWidget {
                     CustomOutlinedButton(
                       onPressed: () => onFormSubmit(registerFormProvider, authProvider),
                       text: 'Register',
+                      textColor: Colors.blue,
                     ),
         
                     const SizedBox(height: 20),

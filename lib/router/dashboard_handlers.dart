@@ -1,4 +1,5 @@
 
+import 'package:admin_dashboard/ui/views/categories_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
@@ -22,10 +23,11 @@ class DashboardHandlers {
       Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl( Flurorouter.dashboardRoute );
       
-      if ( authProvider.authStatus == AuthStatus.authenticated )
-        return DashboardView();
-      else 
-        return LoginView();
+      if ( authProvider.authStatus == AuthStatus.authenticated ) {
+        return const DashboardView();
+      } else {
+        return const LoginView();
+      }
     }
   );
 
@@ -36,10 +38,11 @@ class DashboardHandlers {
       Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl( Flurorouter.iconsRoute );
       
-      if ( authProvider.authStatus == AuthStatus.authenticated )
-        return IconsView();
-      else 
-        return LoginView();
+      if ( authProvider.authStatus == AuthStatus.authenticated ) {
+        return const IconsView();
+      } else {
+        return const LoginView();
+      }
     }
   );
 
@@ -50,12 +53,30 @@ class DashboardHandlers {
       Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl( Flurorouter.blankRoute );
       
-      if ( authProvider.authStatus == AuthStatus.authenticated )
-        return BlankView();
-      else 
-        return LoginView();
+      if ( authProvider.authStatus == AuthStatus.authenticated ) {
+        return const BlankView();
+      } else {
+        return const LoginView();
+      }
     }
   );
+
+    static Handler categories = Handler(
+    handlerFunc: ( context, params ) {
+
+      final authProvider = Provider.of<AuthProvider>(context!);
+      Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl( Flurorouter.categoriesRoute );
+      
+      if ( authProvider.authStatus == AuthStatus.authenticated ) {
+        return const CategoriesView();
+      } else {
+        return const LoginView();
+      }
+    }
+  );
+
+  
 
   
 }

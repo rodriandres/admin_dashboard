@@ -38,6 +38,25 @@ class CafeApi {
     }
   }
 
+  static Future put( String path, Map<String, dynamic> data ) async {
+    final formData = FormData.fromMap(data);
+    try {
+      final response = await _dio.put('$path', data: formData);
+    
+      return response.data;
+    } catch (e) {
+        throw('Error in PUT');
+    }
+  }
 
+  static Future delete( String path ) async {
+    try {
+      final response = await _dio.delete('$path');
+    
+      return response.data;
+    } catch (e) {
+        throw('Error in DELETE');
+    }
+  }
 
 }

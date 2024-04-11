@@ -1,3 +1,4 @@
+import 'package:admin_dashboard/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,8 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
-        ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider())
+        ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
 
       ],
       child: MyApp()
@@ -68,12 +70,22 @@ class MyApp extends StatelessWidget {
         // print(LocalStorage.prefs.getString('token'));
 
       },
+      // TODO WRAP THEME IN METHOD
       theme: ThemeData.light().copyWith(
         scrollbarTheme: const ScrollbarThemeData().copyWith(
           thumbColor: MaterialStateProperty.all(
             Colors.grey[500],
           )
-        )
+        ),
+        // ADD COLOR SCHEME
+        cardTheme: CardTheme(
+          color: Colors.grey[100],
+          elevation: 0, // remove shadow
+          margin: const EdgeInsets.all(0), // reset margin
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Change radius
+          ),
+        ),
       ),
     );
   }

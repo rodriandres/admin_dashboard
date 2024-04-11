@@ -2,7 +2,6 @@ import 'package:admin_dashboard/providers/sidemenu_provider.dart';
 import 'package:admin_dashboard/ui/shared/navbar.dart';
 import 'package:admin_dashboard/ui/shared/sidebar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class DashboardLayout extends StatefulWidget {
 
@@ -50,8 +49,7 @@ class _DashboardLayoutState extends State<DashboardLayout> with SingleTickerProv
           
                     // View
                     Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Container(
                         child: widget.child
                       ),
                     ),
